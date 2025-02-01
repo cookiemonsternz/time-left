@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Time Left</title>
+</head>
+<body>
+    <div class="v_container">
+        <div class="h_container">
+            <input type="text" id="time" placeholder="Enter hours completed">
+            <button onclick="timeLeft()">Calculate</button>
+        </div>
+        <p id="timeLeft"></p>
+    </div>
+    <script>
+        function timeLeft() {
+            let time = document.getElementById('time').value;
+            let time_left_ms = 1743465600000 - Date.now() // milliseconds at 1/4/2025
+            let time_required_left = (100 * 3600000) - time * 3600000; // 100 hours in milliseconds
+            let days_left = time_left_ms / (1000 * 60 * 60 * 24);
+            let time_per_day = time_required_left / days_left;
+            let time_per_day_hours = (time_per_day / 3600000);
+            console.log(days_left);
+            document.getElementById('timeLeft').innerText = `${Math.floor(time_per_day_hours)} hour, ${Math.floor((time_per_day % 3600000) / 60000)} minutes per day`;        
+        }
+    </script>
+</body>
+</html>
