@@ -13,17 +13,55 @@
             <button onclick="timeLeft()">Calculate</button>
         </div>
         <p id="timeLeft"></p>
+        <p id="altTimeLeft"></p>
+        <input type="range" id="proportion" min="0" max="1" step="0.01" value="0" oninput="timeLeft()">
     </div>
     <script>
         function timeLeft() {
+            // Get input element value
             let time = document.getElementById('time').value;
-            let time_left_ms = 1743465600000 - Date.now() // milliseconds at 1/4/2025
-            let time_required_left = (100 * 3600000) - time * 3600000; // 100 hours in milliseconds
+
+            // Target date: January 4, 2025 (UTC)
+            const TARGET_DATE = 1743465600000;
+            let time_left_ms = TARGET_DATE - Date.now();
+
+            // Calculate required time in milliseconds (100 hours minus input hours)
+            let time_required_left = (100 - time) * 3600000; // Convert to milliseconds
+
+            // Calculate days left
             let days_left = time_left_ms / (1000 * 60 * 60 * 24);
+
+            // Calculate time needed per day
             let time_per_day = time_required_left / days_left;
-            let time_per_day_hours = (time_per_day / 3600000);
-            console.log(days_left);
-            document.getElementById('timeLeft').innerText = `${Math.floor(time_per_day_hours)} hour, ${Math.floor((time_per_day % 3600000) / 60000)} minutes per day`;        
+            let time_per_day_hours = time_per_day / 3600000;
+
+            // Calculate weekday/weekend split
+            // 40% of time on weekdays (spread across 5 days)
+            // 60% of time on weekends (spread across 2 days)
+            let total_time_weekdays = time_required_left * document.getElementById('proportion').value;
+            let total_time_weekends = time_required_left * (1 - document.getElementById('proportion').value);
+
+            // Calculate remaining weekdays and weekend days
+            let days_left_weekdays = Math.floor(days_left * 5/7);
+            let days_left_weekends = Math.floor(days_left * 2/7);
+
+            // Calculate time needed per weekday and weekend day
+            let time_per_weekday = total_time_weekdays / days_left_weekdays;
+            let time_per_weekend_day = total_time_weekends / days_left_weekends;
+
+            // Helper function to format time
+            function formatTime(milliseconds) {
+                const hours = Math.floor(milliseconds / 3600000);
+                const minutes = Math.floor((milliseconds % 3600000) / 60000);
+                return `${hours}:${minutes.toString().padStart(2, '0')}`;
+            }
+
+            // Update DOM elements
+            document.getElementById('timeLeft').innerText = 
+                `${Math.floor(time_per_day_hours)} hours, ${Math.floor((time_per_day % 3600000) / 60000)} minutes per day`;
+
+            document.getElementById('altTimeLeft').innerText = 
+                `${formatTime(time_per_weekday)} per weekday, ${formatTime(time_per_weekend_day)} per weekend day`;
         }
     </script>
 </body>
