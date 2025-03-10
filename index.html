@@ -13,8 +13,8 @@
                 <input type="text" id="time" placeholder="Enter hours completed">
                 <button onclick="timeLeft()">Calculate</button>
             </div>
-            <p id="timeLeft">2 hours, 43 minutes per day</p>
-            <p id="altTimeLeft">0:00 per weekday, 9:45 per weekend day</p>
+            <p id="timeLeft"></p>
+            <p id="altTimeLeft"></p>
             <input type="range" id="proportion" min="0" max="1" step="0.01" value="0" oninput="timeLeft()">
         </div>
         <script>
