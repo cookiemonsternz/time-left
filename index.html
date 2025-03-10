@@ -19,14 +19,19 @@
     <script>
         function timeLeft() {
             // Get input element value
-            let time = document.getElementById('time').value;
+            let time = document.getElementById('time').value.split(':');
+            let timeHours = time[0];
+
+            if (time.length == 2) {
+                timeHours += time[1] / 60
+            }
 
             // Target date: January 4, 2025 (UTC)
             const TARGET_DATE = 1743465600000;
             let time_left_ms = TARGET_DATE - Date.now();
 
             // Calculate required time in milliseconds (100 hours minus input hours)
-            let time_required_left = (100 - time) * 3600000; // Convert to milliseconds
+            let time_required_left = (100 - timeHours) * 3600000; // Convert to milliseconds
 
             // Calculate days left
             let days_left = time_left_ms / (1000 * 60 * 60 * 24);
