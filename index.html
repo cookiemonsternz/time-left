@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Time Left</title>
@@ -12,18 +11,18 @@
             <input type="text" id="time" placeholder="Enter hours completed">
             <button onclick="timeLeft()">Calculate</button>
         </div>
-        <p id="timeLeft"></p>
-        <p id="altTimeLeft"></p>
+        <p id="timeLeft">2 hours, 43 minutes per day</p>
+        <p id="altTimeLeft">0:00 per weekday, 9:45 per weekend day</p>
         <input type="range" id="proportion" min="0" max="1" step="0.01" value="0" oninput="timeLeft()">
     </div>
     <script>
         function timeLeft() {
             // Get input element value
             let time = document.getElementById('time').value.split(':');
-            let timeHours = time[0];
+            let timeHours = parseFloat(time[0]);
 
-            if (time.length == 2) {
-                timeHours += time[1] / 60
+            if (time.length >= 2) {
+                timeHours += time[1] / 60;
             }
 
             // Target date: January 4, 2025 (UTC)
@@ -69,5 +68,6 @@
                 `${formatTime(time_per_weekday)} per weekday, ${formatTime(time_per_weekend_day)} per weekend day`;
         }
     </script>
-</body>
-</html>
+
+
+</body></html>
